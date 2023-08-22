@@ -4,9 +4,10 @@ import { AppService } from './app.service';
 import { AppGateway } from './app/app.gateway';
 import { UsersModule } from './users/users.module';
 import { ZodValidationPipe } from 'nestjs-zod';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
-  imports: [UsersModule],
+  imports: [UsersModule, AuthModule],
   controllers: [AppController],
   providers: [
     {

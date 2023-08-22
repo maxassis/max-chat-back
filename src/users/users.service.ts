@@ -3,18 +3,13 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import * as bcrypt from 'bcrypt';
-
-type CreateUserDTO = {
-  name: string;
-  email: string;
-  password: string;
-};
+import { CreateUserSchemaDto } from 'src/schemas/create-user-schema';
 
 @Injectable()
 export class UsersService {
   constructor(private prisma: PrismaService) {}
 
-  async create(body: CreateUserDTO) {
+  async create(body: CreateUserSchemaDto) {
     const user = await this.prisma.users.findFirst({
       where: {
         OR: [
@@ -50,7 +45,7 @@ export class UsersService {
     return `This action returns a #${id} user`;
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
+  update(id: number) {
     return `This action updates a #${id} user`;
   }
 

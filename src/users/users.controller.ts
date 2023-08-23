@@ -3,16 +3,18 @@ import {
   Get,
   Post,
   Body,
-  Patch,
-  Param,
-  Delete,
+  UseGuards,
+  Request,
+  UseInterceptors,
+  UploadedFile,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
-//import { UpdateUserDto } from './dto/update-user.dto';
 import {
   CreateUserResponseDto,
   CreateUserSchemaDto,
 } from 'src/schemas/create-user-schema';
+import { AuthGuard } from 'src/guards/auth-guard.provider';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('users')
 export class UsersController {
@@ -24,23 +26,15 @@ export class UsersController {
     return CreateUserResponseDto.parse(user);
   }
 
-  @Get()
-  findAll() {
-    return this.usersService.findAll();
+  @Get('/profile')
+  @UseGuards(AuthGuard)
+  async profile(@Request() req) {
+    return req.user;
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.usersService.findOne(+id);
-  }
-
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-  //   return this.usersService.update(+id, updateUserDto);
-  // }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.usersService.remove(+id);
+  @Post('upload')
+  @UseInterceptors(FileInterceptor('file'))
+  uploadFile(@UploadedFile() file: Express.Multer.File) {
+    console.log(file);
   }
 }

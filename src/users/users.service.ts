@@ -1,6 +1,4 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-//import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import * as bcrypt from 'bcrypt';
 import { CreateUserSchemaDto } from 'src/schemas/create-user-schema';
@@ -9,7 +7,7 @@ import { CreateUserSchemaDto } from 'src/schemas/create-user-schema';
 export class UsersService {
   constructor(private prisma: PrismaService) {}
 
-  async create(body: CreateUserSchemaDto) {
+  async create(body: CreateUserSchemaDto): Promise<CreateUserSchemaDto | null> {
     const user = await this.prisma.users.findFirst({
       where: {
         OR: [

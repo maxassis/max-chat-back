@@ -34,7 +34,8 @@ export class UsersController {
 
   @Post('upload')
   @UseInterceptors(FileInterceptor('file'))
-  uploadFile(@UploadedFile() file: Express.Multer.File) {
-    console.log(file);
+  @UseGuards(AuthGuard)
+  uploadFile(@Request() req, @UploadedFile() file: Express.Multer.File) {    
+    return this.usersService.avatar({ id: req.user.sub, file });
   }
 }

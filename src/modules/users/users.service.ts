@@ -2,10 +2,16 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import * as bcrypt from 'bcrypt';
 import { CreateUserSchemaDto } from 'src/schemas/create-user-schema';
+import { IStorage } from 'src/storage/storage';
+
+type AvatarDTO = {
+  id: string;
+  file: Express.Multer.File;
+};
 
 @Injectable()
 export class UsersService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService, private storage: IStorage) {}
 
   async create(body: CreateUserSchemaDto): Promise<CreateUserSchemaDto | null> {
     const user = await this.prisma.users.findFirst({
@@ -35,19 +41,25 @@ export class UsersService {
     });
   }
 
-  findAll() {
-    return this.prisma.users.findMany();
+  async avatar(data: AvatarDTO) {
+    const file = await this.storage.upload(data.file, 'avatars');
+    //console.log(data);
+    return file;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
-  }
+  // findAll() {
+  //   return this.prisma.users.findMany();
+  // }
 
-  update(id: number) {
-    return `This action updates a #${id} user`;
-  }
+  // findOne(id: number) {
+  //   return `This action returns a #${id} user`;
+  // }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
-  }
+  // update(id: number) {
+  //   return `This action updates a #${id} user`;
+  // }
+
+  // remove(id: number) {
+  //   return `This action removes a #${id} user`;
+  // }
 }

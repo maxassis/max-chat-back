@@ -19,7 +19,7 @@ export class SupabaseStorage implements IStorage {
         upsert: true,
       });
 
-    console.log(data);
+    //console.log(data);
 
     return data;
   }

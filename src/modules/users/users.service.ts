@@ -3,6 +3,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import * as bcrypt from 'bcrypt';
 import { CreateUserSchemaDto } from 'src/schemas/create-user-schema';
 import { IStorage } from 'src/storage/storage';
+import { extname } from 'path';
 
 type AvatarDTO = {
   id: string;
@@ -42,9 +43,27 @@ export class UsersService {
   }
 
   async avatar(data: AvatarDTO) {
+    const extFile = extname(data.file.originalname);
+    const transforName = `${data.id}${extFile}`;
+    data.file.originalname = transforName;
+
     const file = await this.storage.upload(data.file, 'avatars');
+    const pathAvatar = `avatars/${data.file.originalname}`;
+    await this.uploadAvatar(+data.id, pathAvatar);
+
     //console.log(data);
     return file;
+  }
+
+  async uploadAvatar(id: number, path: string) {
+    await this.prisma.users.update({
+      where: {
+        id,
+      },
+      data: {
+        avatar: path,
+      },
+    });
   }
 
   // findAll() {

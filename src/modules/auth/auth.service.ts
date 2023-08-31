@@ -17,7 +17,6 @@ export class AuthService {
       {
         sub: user.id,
         name: user.name,
-        email: user.email,
       },
       {
         expiresIn: '1y',
@@ -25,10 +24,10 @@ export class AuthService {
     );
   }
 
-  async login(email: string, password: string) {
+  async login(name: string, password: string) {
     const user = await this.prisma.users.findFirst({
       where: {
-        email,
+        name,
       },
     });
 

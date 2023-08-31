@@ -17,14 +17,7 @@ export class UsersService {
   async create(body: CreateUserSchemaDto): Promise<CreateUserSchemaDto | null> {
     const user = await this.prisma.users.findFirst({
       where: {
-        OR: [
-          {
-            name: body.name,
-          },
-          {
-            email: body.email,
-          },
-        ],
+        name: body.name,
       },
     });
 

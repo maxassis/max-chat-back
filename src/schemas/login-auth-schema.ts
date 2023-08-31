@@ -2,7 +2,7 @@ import { createZodDto } from 'nestjs-zod';
 import { z } from 'nestjs-zod/z';
 
 export const LoginAuthDto = z.object({
-  email: z.string({ required_error: 'Email is required' }).email(),
+  name: z.string({ required_error: 'Name is required' }).nonempty(),
   password: z.string({ required_error: 'Password is required' }).nonempty(),
 });
 

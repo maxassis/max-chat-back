@@ -4,6 +4,7 @@ import * as bcrypt from 'bcrypt';
 import { CreateUserSchemaDto } from 'src/schemas/create-user-schema';
 import { IStorage } from 'src/storage/storage';
 import { extname } from 'path';
+import { Users } from '@prisma/client';
 
 type AvatarDTO = {
   id: string;
@@ -14,7 +15,7 @@ type AvatarDTO = {
 export class UsersService {
   constructor(private prisma: PrismaService, private storage: IStorage) {}
 
-  async create(body: CreateUserSchemaDto): Promise<CreateUserSchemaDto | null> {
+  async create(body: CreateUserSchemaDto) {
     const user = await this.prisma.users.findFirst({
       where: {
         name: body.name,

@@ -1,0 +1,18 @@
+//login do usuario
+POST  http://localhost:3333/auth/login
+Content-Type: application/json
+
+{
+    "name": "teste1",
+    "password": "123456"
+}
+###
+
+//registro do usuario
+POST  http://localhost:3333/auth/register
+Content-Type: application/json
+
+{
+    "name": "teste15",
+    "password": "123456"
+}

@@ -7,6 +7,7 @@ import {
   Request,
   UseInterceptors,
   UploadedFile,
+  Param,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import {
@@ -18,7 +19,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(private readonly usersService: UsersService) { }
 
   @Post()
   async create(@Body() body: CreateUserSchemaDto) {
@@ -32,12 +33,21 @@ export class UsersController {
     return req.user;
   }
 
-  @Post('/upload')
-  @UseGuards(AuthGuard)
+  @Post('/upload/:id')
+  // @UseGuards(AuthGuard)
   @UseInterceptors(FileInterceptor('file'))
-  uploadFile(@Request() req, @UploadedFile() file: Express.Multer.File) {
-   // console.log(file);
-    
-    return this.usersService.avatar({ id: req.user.sub, file });
+  uploadFile(@Param() {id}, @UploadedFile() file: Express.Multer.File) {
+    console.log(id);
+
+    return this.usersService.avatar({ id, file });
   }
+
+  @Get("/me") 
+  @UseGuards(AuthGuard)
+  async myData(@Request() req) {
+   
+    
+  return this.usersService.myData({id: req.user.sub})
+  }
+  
 }

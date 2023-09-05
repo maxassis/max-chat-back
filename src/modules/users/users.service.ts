@@ -60,6 +60,16 @@ export class UsersService {
     });
   }
 
+  async myData(dt: {id: number}) {  
+  const user = await this.prisma.users.findFirst({
+      where: {
+        id: dt.id ,
+      },
+    })
+
+    return user
+  }
+
   // findAll() {
   //   return this.prisma.users.findMany();
   // }

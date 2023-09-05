@@ -3,7 +3,7 @@ POST  http://localhost:3333/auth/login
 Content-Type: application/json
 
 {
-    "name": "teste1",
+    "name": "teste29",
     "password": "123456"
 }
 ###

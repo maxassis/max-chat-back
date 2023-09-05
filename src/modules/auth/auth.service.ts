@@ -6,7 +6,7 @@ import { Users } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 import * as bcrypt from 'bcrypt';
 import { UsersService } from '../users/users.service';
-import { CreateUserDto } from '../users/dto/create-user.dto';
+//import { CreateUserDto } from '../users/dto/create-user.dto';
 import { CreateUserSchemaDto } from 'src/schemas/create-user-schema';
 
 @Injectable()
@@ -21,6 +21,7 @@ export class AuthService {
       {
         sub: user.id,
         name: user.name,
+        avatar: user.avatar
       },
       {
         expiresIn: '1y',
@@ -50,12 +51,9 @@ export class AuthService {
 
     try {
       const user = await this.userService.create(body);
-      const token = await this.createToken(user)
-      console.log(token);
+      console.log(user);
       
-      return {
-        token
-      }
+      return user
     } catch (e) {
       throw new BadRequestException('Este nome ja foi registrado', { cause: new Error(), description: 'This email is already registered' })
     }

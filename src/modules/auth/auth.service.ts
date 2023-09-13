@@ -44,14 +44,16 @@ export class AuthService {
       throw new UnauthorizedException('Password is incorrect');
     }
 
-    return this.createToken(user);
+    return {
+      token: await this.createToken(user)
+    }
   }
 
   async register(body: CreateUserSchemaDto) {
 
     try {
       const user = await this.userService.create(body);
-      console.log(user);
+     // console.log(user);
       
       return user
     } catch (e) {

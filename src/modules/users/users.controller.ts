@@ -37,7 +37,7 @@ export class UsersController {
   // @UseGuards(AuthGuard)
   @UseInterceptors(FileInterceptor('file'))
   uploadFile(@Param() {id}, @UploadedFile() file: Express.Multer.File) {
-    console.log(id);
+   // console.log(id);
 
     return this.usersService.avatar({ id, file });
   }

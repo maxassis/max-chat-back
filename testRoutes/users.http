@@ -1,0 +1,15 @@
+// criar usuario
+POST  http://localhost:3333/users
+Content-Type: application/json
+
+{
+    "name": "teste3",
+    "password": "123456"
+}
+###
+
+// profile
+GET  http://localhost:3333/users/profile
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEyLCJuYW1lIjoidGVzdGUxIiwiaWF0IjoxNjkzNjA1MzM5LCJleHAiOjE3MjUxNjI5Mzl9.ow_UtZmzhzyqADVuklj7BUpyIDVfe4elgE9hIgZTQcs
+###

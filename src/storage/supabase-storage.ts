@@ -14,7 +14,7 @@ export class SupabaseStorage implements IStorage {
   }
   async upload(file: Express.Multer.File, folder: string): Promise<any> {
     const data = await this.client.storage
-      .from(process.env.SUPABASE_NAME ?? '')
+      .from(process.env.SUPABASE_BUCKET ?? '')
       .upload(`${folder}/` + file.originalname, file.buffer, {
         upsert: true,
       });
